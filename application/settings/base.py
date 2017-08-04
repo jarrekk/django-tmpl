@@ -68,10 +68,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ROOT_URLCONF = '{{ project_name }}.urls'
-# WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
-ROOT_URLCONF = 'project_name.urls'
-WSGI_APPLICATION = 'project_name.wsgi.application'
+ROOT_URLCONF = '.'.join([env('PROJECT_NAME'), 'urls'])
+WSGI_APPLICATION = '.'.join([env('PROJECT_NAME'), 'wsgi', 'application'])
 
 TEMPLATES = [
     {
@@ -131,6 +129,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = str(ROOT_DIR.path('static'))
 
 # logging configure
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -189,10 +188,3 @@ LOGGING = {
 }
 
 logging.config.dictConfig(LOGGING)
-
-BROKER_URL = env('BROKER_URL')
-CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Shanghai'
