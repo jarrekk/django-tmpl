@@ -8,7 +8,7 @@ import sys
 
 if __name__ == "__main__":
     config = '.'.join(['settings', os.environ.get('ENV', 'development')])
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", config)
+    os.environ['DJANGO_SETTINGS_MODULE'] = config
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
