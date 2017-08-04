@@ -69,7 +69,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = '{{ project_name }}.urls'
+WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 # ROOT_URLCONF = 'project_name.urls'
+# WSGI_APPLICATION = 'project_name.wsgi.application'
 
 TEMPLATES = [
     {
@@ -89,9 +91,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
-# WSGI_APPLICATION = 'project_name.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

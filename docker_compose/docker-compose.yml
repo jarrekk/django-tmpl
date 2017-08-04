@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+
+  redis:
+    image: redis:3
+    ports:
+      - "6379:6379"
+    restart: always
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.6
+    ports:
+      - "5672:5672"
+    restart: always
