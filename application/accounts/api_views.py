@@ -15,17 +15,10 @@ from .serializers import UserSerializer
 
 class UserList(APIView):
     """
-    List all users, or create a new user.
+    List all users, create a new user.
     """
     queryset = User.objects.none()
     permission_classes = (permissions.IsAuthenticated, permissions.BasePermission)
-
-    @staticmethod
-    def get_object(pk):
-        try:
-            return User.objects.get(pk=pk)
-        except User.DoesNotExist:
-            raise Http404
 
     def get(self, request, format=None):
         users = User.objects.all()
@@ -38,11 +31,6 @@ class UserList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        user = self.get_object(pk)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserDetail(APIView):

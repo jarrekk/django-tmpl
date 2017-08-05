@@ -13,6 +13,9 @@ logger = logging.getLogger('views')
 
 
 class Index(View):
+    """
+    index page views
+    """
     v = 'index page'
 
     def get(self, request):

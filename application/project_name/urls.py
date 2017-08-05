@@ -28,6 +28,7 @@ from .views import *
 
 urlpatterns = []
 
+# debug tool route
 if settings.DEBUG:
     import debug_toolbar
 
@@ -35,10 +36,23 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
-urlpatterns += [url(r'^admin/', admin.site.urls)]
-
+# basic route
 urlpatterns += [
     url(r'^$', view=Index.as_view()),
+]
+
+# extension route
+urlpatterns += [
     url(r'^auth/', obtain_jwt_token),
-    url(r'^api/users/', include('accounts.api_urls'))
+    url(r'^admin/', admin.site.urls)
+]
+
+# normal route
+urlpatterns += [
+    url(r'^users/', include('accounts.urls')),
+]
+
+# restful route
+urlpatterns += [
+    url(r'^api/users/', include('accounts.api_urls')),
 ]

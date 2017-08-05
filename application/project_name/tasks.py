@@ -36,11 +36,13 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 
 @task()
 def task_test1():
+    """example of job"""
     logger.info('task log1')
     return 'task1 ok'
 
 
 @periodic_task(run_every=crontab(minute='*/1'))
 def task_test2():
+    """example of schedule"""
     logger.info('task log2')
     return 'task2 ok'
