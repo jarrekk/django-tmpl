@@ -19,6 +19,7 @@ cp env.example .env
 * email([MailGun](https://www.mailgun.com/))
 * django-environ
 * django-debug-toolbar
+* django-extension
 * django-compressor
 * django class based views
 * different settings for different environment

@@ -1,3 +1,4 @@
 -r base.txt
 django-debug-toolbar==1.8
 docker-compose==1.15.0
+django-extensions==1.8.1
