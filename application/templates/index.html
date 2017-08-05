@@ -1,18 +1,17 @@
+{% extends 'base.html' %}
 {% load static %}
 {% load compress %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block css_js %}
     {% compress css %}
         <link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css" charset="utf-8">
     {% endcompress %}
     {% compress js %}
         <script src="{% static "js/main.js" %}"></script>
     {% endcompress %}
-    <meta charset="UTF-8">
-    <title>index</title>
-</head>
+{% endblock %}
+{% block title %}Index{% endblock %}
+{% block content %}
 <body>
 <h1>Welcome to {{ v }}!</h1>
 </body>
-</html>
+{% endblock %}
