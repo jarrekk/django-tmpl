@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'anymail',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +129,31 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = str(ROOT_DIR.path('static'))
+
+# Email configure
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": env('MAILGUN_API_KEY'),
+    "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN'),
+}
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = env('SERVER_EMAIL')
+EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
+EMAIL_SUBJECT_PREFIX = env('EMAIL_SUBJECT_PREFIX')
+
+# Compressor
+
+COMPRESS_ENABLED = env.bool('COMPRESS_ENABLED')
+COMPRESS_URL = STATIC_URL
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_OUTPUT_DIR = 'CACHE'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # compressor
+    'compressor.finders.CompressorFinder',
+)
 
 # logging configure
 
