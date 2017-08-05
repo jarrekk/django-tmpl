@@ -2,3 +2,4 @@
 django-debug-toolbar==1.8
 docker-compose==1.15.0
 django-extensions==1.8.1
+Markdown==2.6.8

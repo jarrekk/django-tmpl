@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views import View
 
+
 logger = logging.getLogger('views')
 
 

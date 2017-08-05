@@ -1,3 +1,4 @@
 -r base.txt
 django-debug-toolbar==1.8
 django-extensions==1.8.1
+Markdown==2.6.8
