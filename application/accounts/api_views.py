@@ -5,12 +5,12 @@
 # email: me@jack003.com
 from django.contrib.auth.models import User
 from django.http import Http404
+from rest_framework import permissions
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import UserSerializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
 
 
 class UserList(APIView):
