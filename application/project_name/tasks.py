@@ -4,10 +4,12 @@
 # date: 8/4/17
 # email: me@jarrekk.com
 from __future__ import absolute_import
+
+import logging
+
 from celery import task
 from celery.schedules import crontab
 from celery.task import periodic_task
-import logging
 
 logger = logging.getLogger('tasks')
 

@@ -3,12 +3,19 @@
 # author: Kun Jia
 # date: 8/4/17
 # email: me@jarrekk.com
-from django.shortcuts import render_to_response
 import logging
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views import View
 
 logger = logging.getLogger('views')
 
 
-def index(request):
-    logger.info('index log')
-    return render_to_response('index.html')
+class Index(View):
+    v = 'index page'
+
+    def get(self, request):
+        logger.info('index log')
+        v = self.v
+        return render_to_response('index.html', locals(), RequestContext(request))

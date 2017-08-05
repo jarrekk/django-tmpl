@@ -20,6 +20,7 @@ cp env.example .env
 * django-environ
 * django-debug-toolbar
 * django-compressor
+* django class based views
 * different settings for different environment
 * different requirements for different environment
 * docker & docker-compose
