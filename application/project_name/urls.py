@@ -44,7 +44,8 @@ urlpatterns += [
 # extension route
 urlpatterns += [
     url(r'^auth/', obtain_jwt_token),
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('allauth.urls')),
 ]
 
 # normal route

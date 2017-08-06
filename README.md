@@ -21,6 +21,7 @@ cp env.example .env
 * django-debug-toolbar
 * django-extension
 * django-compressor
+* django-allauth(Email verify/login)
 * django-rest-framework with jwt
 * django class based views
 * different settings for different environment

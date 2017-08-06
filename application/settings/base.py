@@ -52,10 +52,14 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'anymail',
     'compressor',
     'rest_framework',
@@ -138,9 +142,10 @@ ANYMAIL = {
     "MAILGUN_API_KEY": env('MAILGUN_API_KEY'),
     "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN'),
 }
-EMAIL_BACKEND = env('EMAIL_BACKEND')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = env('SERVER_EMAIL')
-EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
+EMAIL_TIMEOUT = 30
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_SUBJECT_PREFIX = env('EMAIL_SUBJECT_PREFIX')
 
 # Compressor
@@ -169,6 +174,21 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+# Django all-auth
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+SITE_ID = 1
 
 # logging configure
 
