@@ -3,12 +3,15 @@
 # author: Kun Jia
 # date: 8/7/17
 # email: me@jarrekk.com
+import logging
 import threading
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail as core_send_mail
 from django.utils.log import AdminEmailHandler
+
+logger = logging.getLogger('utils')
 
 
 class AdminEmailThread(threading.Thread):
@@ -30,7 +33,10 @@ class AdminEmailThread(threading.Thread):
                                       connection=self.connection)
         if self.html_message:
             mail.attach_alternative(self.html_message, 'text/html')
-        mail.send(fail_silently=self.fail_silently)
+        try:
+            mail.send(fail_silently=self.fail_silently)
+        except Exception as e:
+            logger.exception(e)
 
 
 class AsyncAdminEmailHandler(AdminEmailHandler):
@@ -50,14 +56,17 @@ class EmailThread(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        core_send_mail(
-            subject=self.subject,
-            message=self.message,
-            from_email=self.from_email,
-            recipient_list=self.recipient_list,
-            fail_silently=self.fail_silently,
-            html_message=self.html_message,
-            **self.kwargs)
+        try:
+            core_send_mail(
+                subject=self.subject,
+                message=self.message,
+                from_email=self.from_email,
+                recipient_list=self.recipient_list,
+                fail_silently=self.fail_silently,
+                html_message=self.html_message,
+                **self.kwargs)
+        except Exception as e:
+            logger.exception(e)
 
 
 def send_mail(subject, message, from_email, html_message=None, recipient_list=[], fail_silently=False, **kwargs):

@@ -19,6 +19,6 @@ class Index(View):
     v = 'index page'
 
     def get(self, request):
-        logger.error('index log')
+        logger.info('index log')
         v = self.v
         return render_to_response('index.html', locals(), RequestContext(request))
