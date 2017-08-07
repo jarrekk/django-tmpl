@@ -1,0 +1,68 @@
+version: "2"
+
+services:
+
+  redis:
+    image: redis:3
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data:rw
+    restart: always
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql:rw
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.6
+    ports:
+      - "5672:5672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq:rw
+    restart: always
+
+  django:
+    build:
+      context: ..
+      dockerfile: docker_compose/Dockerfile
+    volumes:
+      - ../application:/django
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+    env_file:
+      - ../application/.env
+    restart: always
+
+  celery:
+    build:
+      context: ..
+      dockerfile: docker_compose/celery.dockerfile
+    volumes:
+      - ../application:/django
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+    env_file:
+      - ../application/.env
+    restart: always
+
+  nginx:
+    image: nginx:1.13.3
+    ports:
+      - 80:80
+    volumes:
+      - ./django.conf:/etc/nginx/conf.d/django.conf
+      - ../application/static:/usr/share/nginx/html/static
+    depends_on:
+      - django
+    restart: always

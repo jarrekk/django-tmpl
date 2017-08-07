@@ -86,8 +86,15 @@ local_settings.py
 .env
 db.sqlite3
 celerybeat-schedule
+celerybeat-schedule.db
 application/static/CACHE/
 
 
 ### PyCharm ###
 .idea/
+
+
+### docker-compose ###
+docker_compose/mysql/
+docker_compose/redis/
+docker_compose/rabbitmq/

@@ -6,6 +6,8 @@ services:
     image: redis:3
     ports:
       - "6379:6379"
+    volumes:
+      - ./redis:/data:rw
     restart: always
 
   mysql:
@@ -14,10 +16,14 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql:rw
     restart: always
 
   rabbitmq:
     image: rabbitmq:3.6
     ports:
       - "5672:5672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq:rw
     restart: always
