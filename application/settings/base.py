@@ -198,7 +198,7 @@ LOGGING = {
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
+            'class': '.'.join([env('PROJECT_NAME'), 'utils.async_email.AsyncAdminEmailHandler']),
             'include_html': True,
         },
         'null': {
@@ -250,3 +250,8 @@ LOGGING = {
 }
 
 logging.config.dictConfig(LOGGING)
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('zh-hans', 'Simplified Chinese')
+]

@@ -17,14 +17,15 @@ cp env.example .env
 
 * logging
 * celery
-* email([MailGun](https://www.mailgun.com/))
 * django-environ
 * django-debug-toolbar
 * django-extension
 * django-compressor
+* django-anymail([MailGun](https://www.mailgun.com/)) with async function
 * django-allauth(Email verify/login)
 * django-rest-framework with jwt
 * django class based views
 * different settings for different environment
 * different requirements for different environment
+* MySQL support for each environment and sqlit3 for develop environment
 * docker & docker-compose

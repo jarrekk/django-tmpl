@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: Kun Jia
 # date: 05/08/2017
-# email: me@jack003.com
+# email: me@jarrekk.com
 from django.contrib.auth.models import User
 from django.http import Http404
 from rest_framework import permissions
@@ -18,7 +18,7 @@ class UserList(APIView):
     List all users, create a new user.
     """
     queryset = User.objects.none()
-    permission_classes = (permissions.IsAuthenticated, permissions.BasePermission)
+    permission_classes = (permissions.IsAuthenticated, permissions.DjangoModelPermissions)
 
     def get(self, request, format=None):
         users = User.objects.all()
@@ -38,7 +38,7 @@ class UserDetail(APIView):
     Retrieve, update or delete a user instance.
     """
     queryset = User.objects.none()
-    permission_classes = (permissions.IsAuthenticated, permissions.DjangoObjectPermissions)
+    permission_classes = (permissions.IsAuthenticated, permissions.DjangoModelPermissions)
 
     @staticmethod
     def get_object(pk):
