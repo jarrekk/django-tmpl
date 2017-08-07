@@ -88,6 +88,10 @@ db.sqlite3
 celerybeat-schedule
 celerybeat-schedule.db
 application/static/CACHE/
+application/static/rest_framework/
+application/static/admin/
+application/static/debug_toolbar/
+application/static/django_extensions/
 
 
 ### PyCharm ###
