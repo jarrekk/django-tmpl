@@ -8,7 +8,7 @@
 
 ``` bash
 PROJECT_NAME=project
-django-admin.py startproject --template=https://github.com/jarrekk/django-tmpl/archive/master.zip --extension=example,py $PROJECT_NAME
+django-admin.py startproject --template=https://github.com/jarrekk/django-tmpl/archive/master.zip --extension=example,py,ini $PROJECT_NAME
 cd $PROJECT_NAME/application
 cp env.example .env
 ```
