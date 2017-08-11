@@ -198,7 +198,7 @@ LOGGING = {
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'class': '.'.join([env('PROJECT_NAME'), 'utils.async_email.AsyncAdminEmailHandler']),
+            'class': 'app_utils.async_email.AsyncAdminEmailHandler',
             'include_html': True,
         },
         'null': {

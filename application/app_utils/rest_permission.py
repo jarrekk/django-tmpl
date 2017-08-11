@@ -20,3 +20,21 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Instance must have an attribute named `owner`.
         return obj.owner == request.user
+
+
+class UserOwnerOrAdmin(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # User should be active
+        if not request.user.is_active:
+            return False
+
+        # Superuser can control any user
+        if request.user.is_superuser:
+            return True
+        elif request.user.emailaddress_set.exists():
+            return request.user.id == obj.id and request.user.emailaddress_set.first().verified
+        else:
+            return request.user.id == obj.id

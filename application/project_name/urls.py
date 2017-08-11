@@ -50,10 +50,10 @@ urlpatterns += [
 
 # normal route
 urlpatterns += [
-    url(r'^users/', include('accounts.urls')),
+    url(r'^user/', include('accounts.urls')),
 ]
 
 # restful route
 urlpatterns += [
-    url(r'^api/users/', include('accounts.api_urls')),
+    url(r'^api/user/', include('accounts.api_urls')),
 ]
