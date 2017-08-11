@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'anymail',
     'compressor',
     'rest_framework',
+    'rest_auth',
+    'rest_auth.registration',
     'accounts'
 ]
 
@@ -189,6 +191,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 SITE_ID = 1
+
+# Django rest auth
+
+REST_USE_JWT = True
 
 # logging configure
 
