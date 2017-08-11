@@ -15,6 +15,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
+import datetime
 import logging.config
 
 import environ
@@ -63,8 +64,6 @@ INSTALLED_APPS = [
     'anymail',
     'compressor',
     'rest_framework',
-    'rest_auth',
-    'rest_auth.registration',
     'accounts'
 ]
 
@@ -177,6 +176,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Django rest framework JWT
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),
+}
+
 # Django all-auth
 
 AUTHENTICATION_BACKENDS = (
@@ -191,10 +196,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 SITE_ID = 1
-
-# Django rest auth
-
-REST_USE_JWT = True
 
 # logging configure
 

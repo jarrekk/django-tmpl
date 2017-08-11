@@ -6,7 +6,6 @@ django-allauth==0.32.0
 django-filter==1.0.4
 djangorestframework==3.6.3
 djangorestframework-jwt==1.11.0
-django-rest-auth==0.9.1
 celery==4.1.0
 PyMySQL==0.7.11
 SQLAlchemy==1.1.10

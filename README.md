@@ -29,3 +29,4 @@ cp env.example .env
 * different requirements for different environment
 * MySQL support for each environment and sqlit3 for develop environment
 * docker & docker-compose for development, test and production environment
+* full user features with basic and rest

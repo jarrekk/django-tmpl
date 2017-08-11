@@ -56,6 +56,4 @@ urlpatterns += [
 # restful route
 urlpatterns += [
     url(r'^api/user/', include('accounts.api_urls')),
-    url(r'^api/auth/', include('rest_auth.urls')),
-    url(r'^api/auth/registration/', include('rest_auth.registration.urls'))
 ]
