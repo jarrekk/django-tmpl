@@ -26,9 +26,6 @@ if __name__ == "__main__":
         raise
     execute_from_command_line(sys.argv)
 
-    package = '.'.join([os.environ.get('PROJECT_NAME', 'project_name'), 'load'])
-    name = 'load_after_app_start'
-
-    load_after_app_start = getattr(__import__(package, fromlist=[name]), name)
+    from app_utils.load_after_setup import load_after_app_start
 
     load_after_app_start()

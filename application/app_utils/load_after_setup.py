@@ -5,6 +5,8 @@
 # email: me@jack003.com
 from django.contrib.auth.models import User
 
+# Load function after django application setup
+
 
 def load_after_app_start():
     User._meta.get_field('email')._unique = True
