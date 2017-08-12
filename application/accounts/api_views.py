@@ -111,7 +111,9 @@ class UserList(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
-        users = User.objects.all()
+        parameters = dict(request.GET.copy())
+        parameters = {k: v[-1] for k, v in parameters.items() if k not in ['page', 'per_page']}
+        users = User.objects.filter(**parameters)
         users, url_next, url_previous, count = paginator(request, users)
 
         serializer = UserSerializer(users, many=True)
