@@ -67,12 +67,12 @@ class ResendActiveEmail(Registration):
     """
     If user doesn't receive active email, resend an email.
     """
-    queryset = User.objects.none()
+    queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self, pk):
         try:
-            user = User.objects.get(pk=pk)
+            user = self.queryset.get(pk=pk)
             self.check_object_permissions(self.request, user)
             return user
         except Exception as e:
@@ -82,11 +82,14 @@ class ResendActiveEmail(Registration):
     def post(self, request, format=None):
         pk = request.data.get('pk', None)
         user = self.get_object(pk)
+
         if request.user.pk == user.pk:
+            if user.emailaddress_set.first().verified:
+                return Response({'detail': 'User is activated.'}, status=status.HTTP_400_BAD_REQUEST)
             # send email
             self.active_email(request, user)
             return Response({'detail': 'An email has been sent to your email address.'})
-        return Response({'detail': 'You do not have permission to perform this action.'},
+        return Response({'detail': 'You do not have permission to perform this action or user is activated.'},
                         status=status.HTTP_400_BAD_REQUEST)
 
 
