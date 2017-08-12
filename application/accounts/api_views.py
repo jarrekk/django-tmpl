@@ -89,7 +89,7 @@ class ResendActiveEmail(Registration):
             # send email
             self.active_email(request, user)
             return Response({'detail': 'An email has been sent to your email address.'})
-        return Response({'detail': 'You do not have permission to perform this action or user is activated.'},
+        return Response({'detail': 'You do not have permission to perform this action.'},
                         status=status.HTTP_400_BAD_REQUEST)
 
 
