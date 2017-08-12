@@ -24,7 +24,7 @@ cp env.example .env
 * django-anymail([MailGun](https://www.mailgun.com/)) with async function
 * django-allauth(Email verify/login)
 * django-rest-framework with jwt
-* django class based views
+* django class based views(APIView with pagination feature)
 * different settings for different environment
 * different requirements for different environment
 * MySQL support for each environment and sqlit3 for develop environment
