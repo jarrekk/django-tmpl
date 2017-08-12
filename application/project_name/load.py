@@ -8,3 +8,4 @@ from django.contrib.auth.models import User
 
 def load_after_app_start():
     User._meta.get_field('email')._unique = True
+    User._meta.ordering = ['pk']

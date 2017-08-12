@@ -198,6 +198,11 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 SITE_ID = 1
 
+
+# Per page
+
+PER_PAGE = 10
+
 # logging configure
 
 LOGGING = {

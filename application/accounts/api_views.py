@@ -9,6 +9,7 @@ from allauth.account.forms import ResetPasswordForm
 from allauth.account.models import EmailAddress
 from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
+from app_utils.rest_framework_api import paginator
 from app_utils.tokens import account_activation_token
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -111,8 +112,15 @@ class UserList(APIView):
 
     def get(self, request, format=None):
         users = User.objects.all()
+        users, url_next, url_previous, count = paginator(request, users)
+
         serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+        return Response({
+            'results': serializer.data,
+            'next': url_next,
+            'previous': url_previous,
+            'count': count
+        })
 
 
 class UserDetail(APIView):

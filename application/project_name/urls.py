@@ -46,10 +46,10 @@ urlpatterns += [
     url(r'^auth/', obtain_jwt_token),
 
     # REST API applications
-    url(r'^api/user/', include('accounts.api_urls')),
+    url(r'^api/users/', include('accounts.api_urls')),
 
     # Normal applications
-    url(r'^user/', include('accounts.urls')),
+    url(r'^users/', include('accounts.urls')),
 
     # Admin application
     url(r'^admin/', admin.site.urls),
