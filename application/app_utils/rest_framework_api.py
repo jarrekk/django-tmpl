@@ -4,6 +4,9 @@
 # date: 05/08/2017
 # email: me@jarrekk.com
 from rest_framework import permissions
+from accounts.serializers import UserSerializer
+
+# Custom rest_framework permission
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -38,3 +41,13 @@ class UserOwnerOrAdmin(permissions.BasePermission):
             return request.user.id == obj.id and request.user.emailaddress_set.first().verified
         else:
             return request.user.id == obj.id
+
+
+# Custom rest_framework jwt response
+
+def jwt_response_payload_handler(token, user=None, request=None):
+
+    return {
+        'token': token,
+        'user': UserSerializer(user, context={'request': request}).data
+    }

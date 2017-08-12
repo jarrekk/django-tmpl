@@ -1,8 +1,8 @@
-{% autoescape off %}Hello from {{ domain }}!
+{% autoescape off %}Hello from http://{{ domain }}!
 
 You're receiving this e-mail because user {{ user.username }} has given yours as an e-mail address to connect their account.
 
 To confirm this is correct, go to http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}
-Thank you from {{ domain }}!
-{{ domain }}
+Thank you from http://{{ domain }}!
+http://{{ domain }}

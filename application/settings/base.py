@@ -179,7 +179,8 @@ REST_FRAMEWORK = {
 # Django rest framework JWT
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'app_utils.rest_framework_api.jwt_response_payload_handler'
 }
 
 # Django all-auth

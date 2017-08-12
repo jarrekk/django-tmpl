@@ -36,24 +36,21 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
-# basic route
 urlpatterns += [
     url(r'^$', view=Index.as_view()),
-]
 
-# extension route
-urlpatterns += [
-    url(r'^auth/', obtain_jwt_token),
-    url(r'^admin/', admin.site.urls),
+    # Django all-auth application
     url(r'^accounts/', include('allauth.urls')),
-]
 
-# normal route
-urlpatterns += [
-    url(r'^user/', include('accounts.urls')),
-]
+    # Rest API JWT
+    url(r'^auth/', obtain_jwt_token),
 
-# restful route
-urlpatterns += [
+    # REST API applications
     url(r'^api/user/', include('accounts.api_urls')),
+
+    # Normal applications
+    url(r'^user/', include('accounts.urls')),
+
+    # Admin application
+    url(r'^admin/', admin.site.urls),
 ]

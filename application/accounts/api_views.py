@@ -7,7 +7,7 @@ import logging
 
 from allauth.account.forms import ResetPasswordForm
 from allauth.account.models import EmailAddress
-from app_utils import rest_permission
+from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
 from app_utils.tokens import account_activation_token
 from django.conf import settings
@@ -120,7 +120,7 @@ class UserDetail(APIView):
     Retrieve, update or delete a user instance.
     """
     queryset = User.objects.none()
-    permission_classes = (rest_permission.UserOwnerOrAdmin, permissions.IsAuthenticated)
+    permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
 
     def get_object(self, pk):
         try:
