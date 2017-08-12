@@ -21,3 +21,7 @@ config = '.'.join(['settings', os.environ.get('ENV', 'development')])
 os.environ['DJANGO_SETTINGS_MODULE'] = config
 
 application = get_wsgi_application()
+
+from .load import LoadAfterAPPStart
+
+LoadAfterAPPStart()

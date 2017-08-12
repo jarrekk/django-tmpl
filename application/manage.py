@@ -25,3 +25,10 @@ if __name__ == "__main__":
             )
         raise
     execute_from_command_line(sys.argv)
+
+    package = '.'.join([os.environ.get('PROJECT_NAME', 'project_name'), 'load'])
+    name = 'LoadAfterAPPStart'
+
+    LoadAfterAPPStart = getattr(__import__(package, fromlist=[name]), name)
+
+    LoadAfterAPPStart()
