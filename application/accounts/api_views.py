@@ -75,7 +75,8 @@ class ResendActiveEmail(Registration):
             user = User.objects.get(pk=pk)
             self.check_object_permissions(self.request, user)
             return user
-        except Exception:
+        except Exception as e:
+            logger.info(e)
             raise Http404
 
     def post(self, request, format=None):
@@ -109,18 +110,19 @@ class UserList(APIView):
     """
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_classes = (UserSerializer,)
 
     def get(self, request, format=None):
         parameters = dict(request.GET.copy())
         parameters = {k: v[-1] for k, v in parameters.items() if k not in ['page', 'per_page']}
         try:
             queryset = self.queryset.filter(**parameters)
-        except Exception:
+        except Exception as e:
+            logger.info(e)
             raise Http404
         queryset, url_next, url_previous, count = paginator(request, queryset)
 
-        serializer = self.serializer_class(queryset, many=True)
+        serializer = self.serializer_classes[0](queryset, many=True)
         return Response({
             'results': serializer.data,
             'next': url_next,
@@ -135,24 +137,25 @@ class UserDetail(APIView):
     """
     queryset = User.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
-    serializer_class = UserSerializer
+    serializer_classes = (UserSerializer,)
 
     def get_object(self, pk):
         try:
             query = self.queryset.get(pk=pk)
             self.check_object_permissions(self.request, query)
             return query
-        except User.DoesNotExist:
+        except Exception as e:
+            logger.info(e)
             raise Http404
 
     def get(self, request, pk, format=None):
         query = self.get_object(pk)
-        query = self.serializer_class(query)
+        query = self.serializer_classes[0](query)
         return Response(query.data)
 
     def put(self, request, pk, format=None):
         query = self.get_object(pk)
-        serializer = self.serializer_class(query, data=request.data)
+        serializer = self.serializer_classes[0](query, data=request.data)
         if serializer.is_valid():
             for k in serializer.initial_data.keys():
                 if k == 'password':
