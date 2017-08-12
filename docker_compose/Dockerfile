@@ -12,12 +12,12 @@ RUN apt-get update && \
     pip install -U pip setuptools && \
     rm -rf /var/lib/apt/lists/*
 
-CMD mkdir -p /var/log/uwsgi
-
 ADD application/requirements /tmp/requirements
 RUN pip install -r /tmp/requirements/$ENV.txt
 
 WORKDIR /django
+
+CMD mkdir -p /var/log/uwsgi
 
 ADD docker_compose/uwsgi.ini /tmp/uwsgi.ini
 CMD uwsgi /tmp/uwsgi.ini

@@ -3,7 +3,6 @@ MAINTAINER Jarrekk me@jarrekk.com
 
 ENV ENV=test
 #ENV ENV=production
-ENV C_FORCE_ROOT=true
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -17,5 +16,7 @@ ADD application/requirements /tmp/requirements
 RUN pip install -r /tmp/requirements/$ENV.txt
 
 WORKDIR /django
+
+ENV C_FORCE_ROOT=true
 
 CMD celery -A taskapp.celery worker -B -l info
