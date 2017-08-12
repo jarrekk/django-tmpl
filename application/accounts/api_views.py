@@ -151,6 +151,20 @@ class UserDetail(APIView):
             logger.info(e)
             raise Http404
 
+    @staticmethod
+    def update_object(serializer, query):
+        for k in serializer.initial_data.keys():
+            if k == 'password':
+                query.set_password(serializer.initial_data['password'])
+                query.save()
+                continue
+            try:
+                setattr(query, k, serializer.initial_data[k])
+            except Exception as e:
+                logger.error(e)
+            finally:
+                query.save()
+
     def get(self, request, pk, format=None):
         query = self.get_object(pk)
         query = self.serializer_classes[0](query)
@@ -160,17 +174,15 @@ class UserDetail(APIView):
         query = self.get_object(pk)
         serializer = self.serializer_classes[0](query, data=request.data)
         if serializer.is_valid():
-            for k in serializer.initial_data.keys():
-                if k == 'password':
-                    query.set_password(serializer.initial_data['password'])
-                    query.save()
-                    continue
-                try:
-                    setattr(query, k, serializer.initial_data[k])
-                except Exception as e:
-                    logger.error(e)
-                finally:
-                    query.save()
+            self.update_object(serializer, query)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, format=None):
+        query = self.get_object(pk)
+        serializer = self.serializer_classes[0](query, data=request.data, partial=True)
+        if serializer.is_valid():
+            self.update_object(serializer, query)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
