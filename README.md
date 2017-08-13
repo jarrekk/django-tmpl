@@ -32,4 +32,4 @@ cp env.example .env
 * docker & docker-compose for development, test and production environment
 * full user features with basic and rest API
 
-# [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)
+### Go to [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)
