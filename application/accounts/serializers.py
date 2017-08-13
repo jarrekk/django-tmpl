@@ -19,5 +19,3 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
-        # Used for app_utils.rest_framework_api.filter order_by filtering
-        sort_fields = ('id', 'username', 'email')
