@@ -9,7 +9,7 @@ from allauth.account.forms import ResetPasswordForm
 from allauth.account.models import EmailAddress
 from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
-from app_utils.rest_framework_api import paginator
+from app_utils.rest_framework_api import paginator, sort_filter
 from app_utils.tokens import account_activation_token
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -116,13 +116,7 @@ class UserList(APIView):
     serializer_classes = (UserSerializer,)
 
     def get(self, request, format=None):
-        parameters = dict(request.GET.copy())
-        parameters = {k: v[-1] for k, v in parameters.items() if k not in ['page', 'per_page']}
-        try:
-            queryset = self.queryset.filter(**parameters)
-        except Exception as e:
-            logger.info(e)
-            raise Http404
+        queryset, sort, filtering = sort_filter(self.queryset, self.serializer_classes[0], request, logger)
         queryset, url_next, url_previous, count = paginator(request, queryset)
 
         serializer = self.serializer_classes[0](queryset, many=True)
@@ -130,7 +124,9 @@ class UserList(APIView):
             'results': serializer.data,
             'next': url_next,
             'previous': url_previous,
-            'count': count
+            'count': count,
+            'sort': sort,
+            'filtering': filtering
         })
 
 

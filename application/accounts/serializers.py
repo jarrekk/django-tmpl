@@ -11,9 +11,13 @@ UserModel = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, default=None)
-    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = UserModel
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
+        read_only_fields = ('id',)
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        # Used for app_utils.rest_framework_api.filter order_by filtering
+        sort_fields = ('id', 'username', 'email')

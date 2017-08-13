@@ -6,7 +6,9 @@
 from accounts.serializers import UserSerializer
 from django.conf import settings
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import Http404
 from rest_framework import permissions
+
 
 # Custom rest_framework permission
 
@@ -91,3 +93,26 @@ def paginator(request, queryset):
         url_previous = '?'.join([full_path, parameters_previous.urlencode()])
 
     return queryset, url_next, url_previous, count
+
+# Filter for APIView
+
+
+def sort_filter(queryset, serializer_class, request, logger):
+    parameters = dict(request.GET.copy())
+    # sort
+    sortby = None
+    if getattr(serializer_class.Meta, 'sort_fields', None):
+        sort_fields = getattr(serializer_class.Meta, 'sort_fields')
+        if parameters.get('sortby', None) and parameters['sortby'][-1] in sort_fields:
+            sortby = parameters.get('sortby')[-1]
+    order = '-' if parameters.get('order', None) and parameters.get('order')[-1] == 'desc' else ''
+    sort = order + sortby if sortby else None
+    queryset = queryset.order_by(sort) if sort else queryset
+    # filter
+    parameters = {k: v[-1] for k, v in parameters.items() if k not in ['page', 'per_page', 'sortby', 'order']}
+    try:
+        queryset = queryset.filter(**parameters)
+    except Exception as e:
+        logger.info(e)
+        raise Http404
+    return queryset, sort, parameters.keys() if parameters else None
