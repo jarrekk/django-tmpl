@@ -5,20 +5,18 @@
 # email: me@jarrekk.com
 import logging
 
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.views import View
+from django.views import generic
 
 logger = logging.getLogger('views')
 
 
-class Index(View):
+class Index(generic.TemplateView):
     """
     index page views
     """
+    template_name = 'index.html'
     v = 'index page'
 
-    def get(self, request):
-        logger.info('index log')
-        v = self.v
-        return render_to_response('index.html', locals(), RequestContext(request))
+    def get_context_data(self, **kwargs):
+        logger.info('generic views.')
+        return {'v': self.v}
