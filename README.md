@@ -1,4 +1,4 @@
-# djangp-tmpl
+# djangp-tmpl Generic views template
 
 ## Dependency
 
