@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'anymail',
     'compressor',
     'rest_framework',
+    'django_filters',
     'accounts'
 ]
 
@@ -174,6 +175,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter'
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'app_utils.rest_framework_api.CustomPagination',
 }
 
 # Django rest framework JWT
@@ -197,11 +203,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 SITE_ID = 1
-
-
-# Per page
-
-PER_PAGE = 10
 
 # logging configure
 

@@ -9,7 +9,6 @@ from allauth.account.forms import ResetPasswordForm
 from allauth.account.models import EmailAddress
 from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
-from app_utils.rest_framework_api import paginator, sort_filter
 from app_utils.tokens import account_activation_token
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -17,6 +16,7 @@ from django.http import Http404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.response import Response
@@ -107,82 +107,44 @@ class ResetPassword(APIView):
         return Response({'detail': 'Email was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserList(APIView):
+class UserList(generics.ListAPIView):
     """
-    List all users, create a new user.
+    List all users.
     """
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_classes = (UserSerializer,)
+    serializer_class = UserSerializer
+    filter_fields = ('id', 'username', 'email')
+    search_fields = ('id', 'username', 'email')
+    ordering_fields = ('id', 'username', 'email')
+    ordering = ('id',)
 
-    def get(self, request, format=None):
-        queryset, sort, filtering = sort_filter(self.queryset, self.serializer_classes[0], request, logger)
-        queryset, url_next, url_previous, count = paginator(request, queryset)
+    def list(self, request, *args, **kwargs):
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        serializer = self.serializer_classes[0](queryset, many=True)
-        return Response({
-            'results': serializer.data,
-            'next': url_next,
-            'previous': url_previous,
-            'count': count,
-            'sort': sort,
-            'filtering': filtering
-        })
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
-class UserDetail(APIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a user instance.
     """
     queryset = User.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
-    serializer_classes = (UserSerializer,)
+    serializer_class = UserSerializer
 
-    def get_object(self, pk):
-        try:
-            query = self.queryset.get(pk=pk)
-            self.check_object_permissions(self.request, query)
-            return query
-        except Exception as e:
-            logger.info(e)
-            raise Http404
-
-    @staticmethod
-    def update_object(serializer, query):
-        for k in serializer.initial_data.keys():
-            if k == 'password':
-                query.set_password(serializer.initial_data['password'])
-                query.save()
-                continue
-            try:
-                setattr(query, k, serializer.initial_data[k])
-            except Exception as e:
-                logger.error(e)
-            finally:
-                query.save()
-
-    def get(self, request, pk, format=None):
-        query = self.get_object(pk)
-        query = self.serializer_classes[0](query)
-        return Response(query.data)
-
-    def put(self, request, pk, format=None):
-        query = self.get_object(pk)
-        serializer = self.serializer_classes[0](query, data=request.data)
-        if serializer.is_valid():
-            self.update_object(serializer, query)
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def patch(self, request, pk, format=None):
-        query = self.get_object(pk)
-        serializer = self.serializer_classes[0](query, data=request.data, partial=True)
-        if serializer.is_valid():
-            self.update_object(serializer, query)
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        query = self.get_object(pk)
-        query.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def update(self, request, *args, **kwargs):
+        # User can't update password with this API
+        self.serializer_class.Meta.fields = ('id', 'username', 'first_name', 'last_name', 'email')
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
