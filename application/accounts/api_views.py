@@ -16,9 +16,7 @@ from django.http import Http404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from rest_framework import generics
-from rest_framework import permissions
-from rest_framework import status
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -105,6 +103,23 @@ class ResetPassword(APIView):
             formset.save(request)
             return Response({'detail': 'An email has been sent to your email address.'})
         return Response({'detail': 'Email was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePassword(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
+    serializer_class = UserSerializer
+
+    def update(self, request, *args, **kwargs):
+        password = request.data.get('password', None)
+        if password:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            instance.set_password(password)
+            instance.save()
+            return Response(serializer.data)
+        return Response({'detail': 'Password was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserList(generics.ListAPIView):

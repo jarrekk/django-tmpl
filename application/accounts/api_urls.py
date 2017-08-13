@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/$', UserDetail.as_view()),
     url(r'^registration/$', Registration.as_view()),
     url(r'^resend_email/$', ResendActiveEmail.as_view()),
+    url(r'^(?P<pk>[0-9]+)/change_password/$', ChangePassword.as_view()),
     url(r'^reset_password/$', ResetPassword.as_view())
 ]
