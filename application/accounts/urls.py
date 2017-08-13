@@ -23,7 +23,9 @@ from django.conf.urls import url
 
 from .views import ActivateView
 
+app_name = 'accounts'
+
 urlpatterns = [
     url(r'^activate/(?P<uid64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        view=ActivateView.as_view()),
+        view=ActivateView.as_view(), name='activate_user'),
 ]
