@@ -103,21 +103,29 @@ class ResetPassword(generics.CreateAPIView):
 class ChangePassword(generics.UpdateAPIView):
     """
     User change password.
+    :param
+    old_password
+    password
     """
     queryset = User.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
     serializer_class = UserSerializer
 
     def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        old_password = request.data.get('old_password', None)
         password = request.data.get('password', None)
-        if password:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if not old_password:
+            return Response({'detail': 'Old password was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not password:
+            return Response({'detail': 'Password was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        if instance.check_password(old_password):
+            serializer = self.get_serializer(instance, data={'password': password}, partial=True)
             serializer.is_valid(raise_exception=True)
             instance.set_password(password)
             instance.save()
             return Response(serializer.data)
-        return Response({'detail': 'Password was not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': 'Old password error.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserList(generics.ListAPIView):

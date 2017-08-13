@@ -28,21 +28,26 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 
 class UserOwnerOrAdmin(permissions.BasePermission):
+    message = 'You do not have permission to perform this action.'
+
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
 
         # User should be active
         if not request.user.is_active:
+            self.message = 'User is not active.'
             return False
 
         # Superuser can control any user
         if request.user.is_superuser:
             return True
-        elif request.user.emailaddress_set.exists():
-            return request.user.id == obj.id and request.user.emailaddress_set.first().verified
-        else:
-            return request.user.id == obj.id
+        if request.user.pk != obj.pk:
+            return False
+        if request.user.emailaddress_set.exists() and not request.user.emailaddress_set.first().verified:
+            self.message = 'Please activate your user via confirm email.'
+            return False
+        return True
 
 # Custom rest_framework jwt response
 
