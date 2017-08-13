@@ -16,20 +16,31 @@ cp env.example .env
 
 ## Features
 
-* logging
-* celery
+### Extensions
+
+* django-extension
 * django-environ
 * django-debug-toolbar
-* django-extension
 * django-compressor
-* django-anymail([MailGun](https://www.mailgun.com/)) with async function
 * django-allauth(Email verify/login)
-* django-rest-framework with jwt
-* django class based views(**Generics views**)
+* django-anymail([MailGun](https://www.mailgun.com/)) with async function
+
+### For development
+
+* logging
 * different settings for different environment
 * different requirements for different environment
 * MySQL support for each environment and sqlit3 for develop environment
 * docker & docker-compose for development, test and production environment
+
+### Rest API
+
+* django-rest-framework with jwt
+
+### Other
+
+* celery
+* django class based views(**Generics views**)
 * full user features with basic and rest API
 
 ### Go to [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)
