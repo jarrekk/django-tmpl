@@ -11,23 +11,24 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
-from django.views import View
+from django.views import generic
 
 logger = logging.getLogger('views')
 
 
-class Activate(View):
+class ActivateView(generic.View):
     """
     Activate page
     """
-    def get(self, request, uid64, token):
+
+    def get(self, request, *args, **kwargs):
         try:
-            uid = force_text(urlsafe_base64_decode(uid64))
+            uid = force_text(urlsafe_base64_decode(kwargs['uid64']))
             user = User.objects.get(pk=uid)
         except Exception as e:
             logger.info(e)
             user = None
-        if user is not None and account_activation_token.check_token(user, token):
+        if user is not None and account_activation_token.check_token(user, kwargs['token']):
             email_address = user.emailaddress_set.first()
             email_address.verified = True
             email_address.save()

@@ -10,7 +10,7 @@ from django.views import generic
 logger = logging.getLogger('views')
 
 
-class Index(generic.TemplateView):
+class IndexView(generic.TemplateView):
     """
     index page views
     """

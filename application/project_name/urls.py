@@ -37,7 +37,7 @@ if settings.DEBUG:
     ]
 
 urlpatterns += [
-    url(r'^$', view=Index.as_view()),
+    url(r'^$', view=IndexView.as_view()),
 
     # Django all-auth application
     url(r'^accounts/', include('allauth.urls')),
