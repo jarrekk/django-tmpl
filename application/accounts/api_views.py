@@ -100,12 +100,12 @@ class ResetPassword(generics.CreateAPIView):
         return Response({'detail': 'Email was not provided or error.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ChangePassword(generics.UpdateAPIView):
+class ChangePassword(generics.UpdateAPIView,):
     """
     User change password.
-    :param
-    old_password
-    password
+    :parameter
+    old_password string
+    password string
     """
     queryset = User.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
