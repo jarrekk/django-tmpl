@@ -30,30 +30,30 @@ services:
 
   django:
     build:
-      context: ..
-      dockerfile: docker_compose/Dockerfile
+      context: ../..
+      dockerfile: docker_compose/test/Dockerfile
     volumes:
-      - ../application:/django
+      - ../../application:/django
     depends_on:
       - mysql
       - redis
       - rabbitmq
     env_file:
-      - ../application/.env
+      - ../../application/.env
     restart: always
 
   celery:
     build:
-      context: ..
-      dockerfile: docker_compose/celery.dockerfile
+      context: ../..
+      dockerfile: docker_compose/test/celery.dockerfile
     volumes:
-      - ../application:/django
+      - ../../application:/django
     depends_on:
       - mysql
       - redis
       - rabbitmq
     env_file:
-      - ../application/.env
+      - ../../application/.env
     restart: always
 
   nginx:
@@ -62,7 +62,7 @@ services:
       - 80:80
     volumes:
       - ./django.conf:/etc/nginx/conf.d/django.conf
-      - ../application/static:/usr/share/nginx/html/static
+      - ../../application/static:/usr/share/nginx/html/static
     depends_on:
       - django
     restart: always

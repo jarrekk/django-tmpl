@@ -2,7 +2,6 @@ FROM python:3.6.1
 MAINTAINER Jarrekk me@jarrekk.com
 
 ENV ENV=test
-#ENV ENV=production
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -17,6 +16,7 @@ RUN pip install -r /tmp/requirements/$ENV.txt
 
 WORKDIR /django
 
-ENV C_FORCE_ROOT=true
+CMD mkdir -p /var/log/uwsgi
 
-CMD celery -A taskapp.celery worker -B -l info
+ADD docker_compose/test/uwsgi.ini /tmp/uwsgi.ini
+CMD uwsgi /tmp/uwsgi.ini
