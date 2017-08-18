@@ -11,9 +11,7 @@ docker-compose up
 
 ## Test & Production
 
-* Edit Dockerfile & celery.dockerfile: *ENV* variable
-
 ``` bash
-docker-compose -f docker-compose-all.yml build
-docker-compose -f docker-compose-all.yml restart
+docker-compose build
+docker-compose start
 ```
