@@ -31,6 +31,7 @@ cp env.example .env
 * different settings for different environment
 * different requirements for different environment
 * MySQL support for each environment and sqlit3 for develop environment
+* Postgres support for each environment but commented.
 * docker & docker-compose for development, test and production environment
 
 ### Rest API
@@ -44,3 +45,5 @@ cp env.example .env
 * full user features with basic and rest API
 
 ### Go to [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)
+
+
