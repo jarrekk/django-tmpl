@@ -24,6 +24,14 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': '127.0.0.1',
+#     }
+# }
 # Celery config
 
 BROKER_URL = env('BROKER_URL')
