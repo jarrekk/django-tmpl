@@ -25,7 +25,3 @@ if __name__ == "__main__":
             )
         raise
     execute_from_command_line(sys.argv)
-
-    from app_utils.load_after_setup import load_after_app_start
-
-    load_after_app_start()
