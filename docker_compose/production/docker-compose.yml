@@ -5,25 +5,25 @@ services:
   redis:
     image: redis:3
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - ./redis:/data:rw
     restart: always
 
-  mysql:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
+  postgres:
+    image: postgres:9.6.4
+    env_file:
+      - .env_postgres
     ports:
-      - "3306:3306"
+      - '127.0.0.1:5432:5432'
     volumes:
-      - ./mysql:/var/lib/mysql:rw
+      - './postgres:/var/lib/postgresql/data/'
     restart: always
 
   rabbitmq:
     image: rabbitmq:3.6
     ports:
-      - "5672:5672"
+      - "127.0.0.1:5672:5672"
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:rw
     restart: always
@@ -35,10 +35,9 @@ services:
     volumes:
       - ../../application:/django
     depends_on:
-      - mysql
+      - postgres
       - redis
       - rabbitmq
-      # - postgree
     env_file:
       - ../../application/.env
     restart: always
@@ -50,10 +49,9 @@ services:
     volumes:
       - ../../application:/django
     depends_on:
-      - mysql
+      - postgres
       - redis
       - rabbitmq
-      # - postgree
     env_file:
       - ../../application/.env
     restart: always
@@ -68,9 +66,3 @@ services:
     depends_on:
       - django
     restart: always
-  # postgree:
-  #   image: postgres:9.6.4
-  #   ports:
-  #      - '127.0.0.1:5432:5432'
-  #   volumes:
-  #     - 'pgdata:/var/lib/postgresql/data/'

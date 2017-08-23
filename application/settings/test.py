@@ -3,11 +3,7 @@
 # author: Kun Jia
 # date: 8/3/17
 # email: me@jarrekk.com
-import pymysql
-
 from .base import *
-
-pymysql.install_as_MySQLdb()
 
 # debug toolbar
 INSTALLED_APPS += [
@@ -41,24 +37,14 @@ DEBUG_TOOLBAR_PANELS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('MYSQL_NAME'),
-        'USER': env('MYSQL_USER'),
-        'PASSWORD': env('MYSQL_PASSWORD'),
-        'HOST': env('MYSQL_HOST'),
-        'PORT': env('MYSQL_PORT'),
-        'CONN_MAX_AGE': 600,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('POSTGRES_NAME'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': '127.0.0.1',
-#     }
-# }
 
 # Celery config
 

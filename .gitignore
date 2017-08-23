@@ -102,14 +102,14 @@ application/static/django_extensions/
 
 
 ### docker-compose ###
-docker_compose/development/mysql/
+docker_compose/development/postgres/
 docker_compose/development/redis/
 docker_compose/development/rabbitmq/
 
-docker_compose/test/mysql/
+docker_compose/test/postgres/
 docker_compose/test/redis/
 docker_compose/test/rabbitmq/
 
-docker_compose/production/mysql/
+docker_compose/production/postgres/
 docker_compose/production/redis/
 docker_compose/production/rabbitmq/

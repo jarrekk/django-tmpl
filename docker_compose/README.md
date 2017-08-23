@@ -11,6 +11,8 @@ docker-compose up
 
 ## Test & Production
 
+* Add **.env** file and folder *test*, *production*
+
 ``` bash
 docker-compose build
 docker-compose start

@@ -34,29 +34,15 @@ DEBUG_TOOLBAR_PANELS = [
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-if env.bool('MYSQL', True):
-    import pymysql
-
-    pymysql.install_as_MySQLdb()
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': env('MYSQL_NAME'),
-            'USER': env('MYSQL_USER'),
-            'PASSWORD': env('MYSQL_PASSWORD'),
-            'HOST': env('MYSQL_HOST'),
-            'PORT': env('MYSQL_PORT'),
-            'CONN_MAX_AGE': 600,
-        }
-    }
-elif env.bool('POSTGRES', True):
+if env.bool('POSTGRES', True):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'HOST': '127.0.0.1',
+            'NAME': env('POSTGRES_NAME'),
+            'USER': env('POSTGRES_USER'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('POSTGRES_HOST'),
+            'PORT': env('POSTGRES_PORT'),
         }
     }
 else:

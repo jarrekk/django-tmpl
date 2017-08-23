@@ -10,14 +10,14 @@ services:
       - ./redis:/data:rw
     restart: always
 
-  mysql:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
+  postgres:
+    image: postgres:9.6.4
+    env_file:
+      - .env_postgres
     ports:
-      - "3306:3306"
+      - '5432:5432'
     volumes:
-      - ./mysql:/var/lib/mysql:rw
+      - './postgres:/var/lib/postgresql/data/'
     restart: always
 
   rabbitmq:
@@ -27,9 +27,4 @@ services:
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:rw
     restart: always
-  # postgree:
-  #   image: postgres:9.6.4
-  #   ports:
-  #      - '127.0.0.1:5432:5432'
-  #   volumes:
-  #     - 'pgdata:/var/lib/postgresql/data/'
+
