@@ -38,6 +38,7 @@ services:
       - mysql
       - redis
       - rabbitmq
+      # - postgree
     env_file:
       - ../../application/.env
     restart: always
@@ -52,6 +53,7 @@ services:
       - mysql
       - redis
       - rabbitmq
+      # - postgree
     env_file:
       - ../../application/.env
     restart: always
@@ -66,3 +68,9 @@ services:
     depends_on:
       - django
     restart: always
+  # postgree:
+  #   image: postgres:9.6.4
+  #   ports:
+  #      - '127.0.0.1:5432:5432'
+  #   volumes:
+  #     - 'pgdata:/var/lib/postgresql/data/'

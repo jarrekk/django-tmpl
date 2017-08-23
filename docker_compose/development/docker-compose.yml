@@ -27,3 +27,9 @@ services:
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:rw
     restart: always
+  # postgree:
+  #   image: postgres:9.6.4
+  #   ports:
+  #      - '127.0.0.1:5432:5432'
+  #   volumes:
+  #     - 'pgdata:/var/lib/postgresql/data/'
