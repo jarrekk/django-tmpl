@@ -13,7 +13,7 @@ services:
   postgres:
     image: postgres:9.6.4
     env_file:
-      - ../../application/.env
+      - .env_postgres
     ports:
       - 127.0.0.1:5432:5432
     volumes:
