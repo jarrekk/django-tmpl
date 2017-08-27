@@ -18,7 +18,7 @@ config = '.'.join(['settings', os.environ.get('ENV', 'development')])
 os.environ['DJANGO_SETTINGS_MODULE'] = config
 
 app = Celery(os.environ.get('PROJECT_NAME'))
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object('django.conf:settings')
 
 # auto discover tasks on installed apps & project root folder
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS + [os.environ.get('PROJECT_NAME') + '.tasks'])
