@@ -7,9 +7,9 @@ from __future__ import absolute_import
 
 import logging
 
-from celery import task
 from celery.schedules import crontab
 from celery.task import periodic_task
+from taskapp.celery import shared_task_email
 
 logger = logging.getLogger('tasks')
 
@@ -34,9 +34,9 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 """
 
 
-@task()
+@shared_task_email()
 def task_test1():
-    """example of job"""
+    """example of job, send email to admins if error."""
     logger.info('task log1')
     return 'task1 ok'
 
