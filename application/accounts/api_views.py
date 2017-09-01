@@ -11,16 +11,17 @@ from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
 from app_utils.tokens import account_activation_token
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
-from .models import User
 from .serializers import UserSerializer
 
 logger = logging.getLogger('views')
+UserModel = get_user_model()
 
 
 class SendEmailClass(object):
@@ -48,7 +49,7 @@ class Registration(generics.CreateAPIView, SendEmailClass):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = User.objects.create_user(
+        user = UserModel.objects.create_user(
             username=serializer.initial_data['username'],
             email=serializer.initial_data['email'],
             first_name=serializer.initial_data['first_name'],
@@ -69,7 +70,7 @@ class ResendActiveEmail(generics.RetrieveUpdateAPIView, SendEmailClass):
     """
     If user doesn't receive active email, resend an email.
     """
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserSerializer
     http_method_names = ['put', 'patch']
@@ -107,7 +108,7 @@ class ChangePassword(generics.UpdateAPIView,):
     old_password string
     password string
     """
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
     serializer_class = UserSerializer
 
@@ -132,7 +133,7 @@ class UserList(generics.ListAPIView):
     """
     List all users.
     """
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserSerializer
     filter_fields = ('id', 'username', 'email')
@@ -145,7 +146,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a user instance.
     """
-    queryset = User.objects.all()
+    queryset = UserModel.objects.all()
     permission_classes = (rest_framework_api.UserOwnerOrAdmin, permissions.IsAuthenticated)
     serializer_class = UserSerializer
 

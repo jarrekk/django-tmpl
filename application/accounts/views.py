@@ -6,14 +6,15 @@
 import logging
 
 from app_utils.tokens import account_activation_token
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login
-from .models import User
 from django.http import HttpResponse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.views import generic
 
 logger = logging.getLogger('views')
+UserModel = get_user_model()
 
 
 class ActivateView(generic.View):
@@ -24,7 +25,7 @@ class ActivateView(generic.View):
     def get(self, request, *args, **kwargs):
         try:
             uid = force_text(urlsafe_base64_decode(kwargs['uid64']))
-            user = User.objects.get(pk=uid)
+            user = UserModel.objects.get(pk=uid)
         except Exception as e:
             logger.info(e)
             user = None
