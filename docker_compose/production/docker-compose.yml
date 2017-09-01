@@ -5,7 +5,7 @@ services:
   redis:
     image: redis:3
     ports:
-      - "127.0.0.1:6379:6379"
+      - 127.0.0.1:6379:6379
     volumes:
       - ./redis:/data:rw
     restart: always
@@ -15,15 +15,15 @@ services:
     env_file:
       - .env_postgres
     ports:
-      - '127.0.0.1:5432:5432'
+      - 127.0.0.1:5432:5432
     volumes:
-      - './postgres:/var/lib/postgresql/data/'
+      - ./postgres:/var/lib/postgresql/data/
     restart: always
 
   rabbitmq:
     image: rabbitmq:3.6
     ports:
-      - "127.0.0.1:5672:5672"
+      - 127.0.0.1:5672:5672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:rw
     restart: always
