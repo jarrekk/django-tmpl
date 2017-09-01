@@ -140,17 +140,6 @@ class UserList(generics.ListAPIView):
     ordering_fields = ('id', 'username', 'email')
     ordering = ('id',)
 
-    def list(self, request, *args, **kwargs):
-        # Note the use of `get_queryset()` instead of `self.queryset`
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -162,10 +151,9 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         # User can't update password with this API
-        self.serializer_class.Meta.fields = ('id', 'username', 'first_name', 'last_name', 'email')
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
+        fields = list(self.serializer_class.Meta.fields)
+        if 'password' in fields:
+            fields.remove('password')
+        self.serializer_class.Meta.fields = tuple(fields)
+        response = super(UserDetail, self).update(request, *args, **kwargs)
+        return response

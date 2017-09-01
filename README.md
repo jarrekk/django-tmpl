@@ -42,7 +42,7 @@ cp env.example .env
 
 * celery
 * django class based views(**Generics views**)
-* full user features with basic and rest API
+* full user features with basic views and rest API views
 
 ### Go to [MySQL Generic views](https://github.com/jarrekk/django-tmpl/tree/GenericView_MySQL)
 ### Go to [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)
