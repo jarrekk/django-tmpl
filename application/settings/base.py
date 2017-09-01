@@ -64,7 +64,12 @@ INSTALLED_APPS = [
     'compressor',
     'rest_framework',
     'django_filters',
-    'accounts'
+    'crispy_forms',
+]
+
+# custom application
+INSTALLED_APPS += [
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -166,6 +171,7 @@ EMAIL_SUBJECT_PREFIX = env('EMAIL_SUBJECT_PREFIX')
 # Compressor
 
 COMPRESS_ENABLED = env.bool('COMPRESS_ENABLED')
+COMPRESS_OFFLINE = True
 COMPRESS_URL = STATIC_URL
 COMPRESS_ROOT = STATIC_ROOT
 COMPRESS_OUTPUT_DIR = 'CACHE'
