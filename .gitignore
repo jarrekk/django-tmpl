@@ -109,7 +109,9 @@ docker_compose/development/rabbitmq/
 docker_compose/test/postgres/
 docker_compose/test/redis/
 docker_compose/test/rabbitmq/
+docker_compose/test/.env_postgres
 
 docker_compose/production/postgres/
 docker_compose/production/redis/
 docker_compose/production/rabbitmq/
+docker_compose/production/.env_postgres

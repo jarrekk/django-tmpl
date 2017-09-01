@@ -1,22 +1,29 @@
 FROM python:3.6.1
 MAINTAINER Jarrekk me@jarrekk.com
 
-ENV ENV=production
+RUN groupadd -r django && useradd -r -g django django
 
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y \
-    git \
-    apt-utils && \
+#    apt-get upgrade -y && \
+    apt-get install -y git apt-utils && \
     pip install -U pip setuptools && \
     rm -rf /var/lib/apt/lists/*
 
-ADD application/requirements /tmp/requirements
-RUN pip install -r /tmp/requirements/$ENV.txt
+COPY application/requirements /requirements
+RUN pip install --no-cache-dir -r /requirements/production.txt && rm -rf /requirements
 
-WORKDIR /django
+COPY docker_compose/production/uwsgi.ini /
+COPY docker_compose/production/entrypoint.sh /
+RUN sed -i 's/\r//' /entrypoint.sh \
+    && chmod +x /entrypoint.sh \
+    && chown django /entrypoint.sh \
+    && chown django /entrypoint.sh
 
-CMD mkdir -p /var/log/uwsgi
+COPY application /app
+RUN chown -R django /app
 
-ADD docker_compose/production/uwsgi.ini /tmp/uwsgi.ini
-CMD uwsgi /tmp/uwsgi.ini
+USER django
+
+WORKDIR /app
+
+ENTRYPOINT ["/entrypoint.sh"]

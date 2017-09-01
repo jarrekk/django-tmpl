@@ -32,28 +32,26 @@ services:
     build:
       context: ../..
       dockerfile: docker_compose/test/Dockerfile
-    volumes:
-      - ../../application:/django
     depends_on:
       - postgres
       - redis
       - rabbitmq
     env_file:
       - ../../application/.env
+    command: uwsgi /uwsgi.ini
     restart: always
 
   celery:
     build:
       context: ../..
-      dockerfile: docker_compose/test/celery.dockerfile
-    volumes:
-      - ../../application:/django
+      dockerfile: docker_compose/test/Dockerfile
     depends_on:
       - postgres
       - redis
       - rabbitmq
     env_file:
       - ../../application/.env
+    command: celery -A taskapp.celery worker -B -l info
     restart: always
 
   nginx:
