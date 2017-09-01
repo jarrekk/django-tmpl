@@ -28,6 +28,7 @@ cp env.example .env
 ### For development
 
 * logging
+* customized user model
 * different settings for different environment
 * different requirements for different environment
 * MySQL support for each environment and sqlit3 for develop environment
@@ -43,6 +44,3 @@ cp env.example .env
 * celery
 * django class based views(**Generics views**)
 * full user features with basic views and rest API views
-
-### Go to [MySQL Generic views](https://github.com/jarrekk/django-tmpl/tree/GenericView_MySQL)
-### Go to [APIView template](https://github.com/jarrekk/django-tmpl/tree/APIView)

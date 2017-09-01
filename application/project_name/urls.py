@@ -19,15 +19,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from app_utils.load_after_setup import load_after_app_start
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework_jwt.views import obtain_jwt_token
 
 from .views import *
-
-load_after_app_start()
 
 urlpatterns = []
 

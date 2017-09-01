@@ -11,13 +11,13 @@ from app_utils import rest_framework_api
 from app_utils.async_email import send_mail
 from app_utils.tokens import account_activation_token
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
+from .models import User
 from .serializers import UserSerializer
 
 logger = logging.getLogger('views')
