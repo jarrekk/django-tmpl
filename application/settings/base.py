@@ -51,7 +51,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.contenttypes',
@@ -100,6 +99,20 @@ TEMPLATES = [
     },
 ]
 
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('POSTGRES_NAME'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -123,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = env('TIMEZONE')
 
 USE_I18N = True
 
@@ -206,66 +219,14 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 SITE_ID = 1
 
-# logging configure
+# Celery config
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'app_utils.async_email.AsyncAdminEmailHandler',
-            'include_html': True,
-        },
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-        'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': str(ROOT_DIR.path('django.log')),
-            'maxBytes': 1024 * 1024 * 5,  # 5MB
-            'backupCount': 2,
-            'formatter': 'verbose',
-        },
-    },
-    'formatters': {
-        'verbose': {
-            'format': '[%(levelname)s] %(asctime)s %(pathname)s %(funcName)s %(lineno)d--%(message)s',
-            'datefmt': "%Y-%b-%d %H:%M:%S"
-        }
-    },
-    'loggers': {
-        'tasks': {
-            'handlers': ['logfile', 'mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'models': {
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'utils': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'views': {
-            'handlers': ['console', 'logfile', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    }
-}
-
-logging.config.dictConfig(LOGGING)
+BROKER_URL = env('BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = env('TIMEZONE')
 
 LANGUAGES = [
     ('en', 'English'),

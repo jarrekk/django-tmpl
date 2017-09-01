@@ -19,6 +19,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import os
+
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -36,6 +38,14 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
+# Admin application route
+# Be used in development and test environment
+if os.environ.get('ENV', 'production') != 'production':
+    urlpatterns += [
+        url(r'^admin/', admin.site.urls),
+    ]
+
+# custom url patterns
 urlpatterns += [
     url(r'^$', view=IndexView.as_view()),
 
@@ -43,7 +53,7 @@ urlpatterns += [
     url(r'^accounts/', include('allauth.urls')),
 
     # Rest API JWT
-    url(r'^auth/', obtain_jwt_token),
+    url(r'^api/auth/', obtain_jwt_token),
 
     # REST API applications
     url(r'^api/users/', include('accounts.api_urls'),),
@@ -51,6 +61,4 @@ urlpatterns += [
     # Normal applications
     url(r'^users/', include('accounts.urls'),),
 
-    # Admin application
-    url(r'^admin/', admin.site.urls),
 ]

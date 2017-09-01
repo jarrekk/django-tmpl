@@ -5,25 +5,64 @@
 # email: me@jarrekk.com
 from .base import *
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# logging configure
+# todo add sentry config
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('POSTGRES_NAME'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST'),
-        'PORT': env('POSTGRES_PORT'),
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'app_utils.async_email.AsyncAdminEmailHandler',
+            'include_html': True,
+        },
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': str(ROOT_DIR.path('django.log')),
+            'maxBytes': 1024 * 1024 * 5,  # 5MB
+            'backupCount': 2,
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s %(pathname)s %(funcName)s %(lineno)d--%(message)s',
+            'datefmt': "%Y-%b-%d %H:%M:%S"
+        }
+    },
+    'loggers': {
+        'tasks': {
+            'handlers': ['logfile', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'models': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'utils': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'views': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
 
-# Celery config
-
-BROKER_URL = env('BROKER_URL')
-CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Shanghai'
+logging.config.dictConfig(LOGGING)
