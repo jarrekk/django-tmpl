@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block css_js %}{% endblock %}
+    {% block css_js %}
+        {% compress css %}
+            <link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css" charset="utf-8">
+        {% endcompress %}
+        {% compress js %}
+            <script src="{% static "js/main.js" %}"></script>
+        {% endcompress %}
+    {% endblock %}
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
 </head>
 {% block content %}
 <body>
 </body>
+{% endblock %}
+{% block js %}
 {% endblock %}
 </html>
