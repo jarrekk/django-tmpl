@@ -14,10 +14,7 @@ RUN pip install --no-cache-dir -r /requirements/test.txt && rm -rf /requirements
 
 COPY docker_compose/production/uwsgi.ini /
 COPY docker_compose/production/entrypoint.sh /
-RUN sed -i 's/\r//' /entrypoint.sh \
-    && chmod +x /entrypoint.sh \
-    && chown django /entrypoint.sh \
-    && chown django /entrypoint.sh
+RUN sed -i 's/\r//' /entrypoint.sh && chmod +x /entrypoint.sh && chown django /entrypoint.sh
 
 COPY application /app
 RUN chown -R django /app

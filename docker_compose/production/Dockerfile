@@ -10,14 +10,16 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY application/requirements /requirements
-RUN pip install --no-cache-dir -r /requirements/production.txt && rm -rf /requirements
+RUN pip install \
+    --no-cache-dir \
+#    --trusted-host pypi.douban.com \
+#    --index-url http://pypi.douban.com/simple \
+    -r /requirements/production.txt && \
+    rm -rf /requirements
 
 COPY docker_compose/production/uwsgi.ini /
 COPY docker_compose/production/entrypoint.sh /
-RUN sed -i 's/\r//' /entrypoint.sh \
-    && chmod +x /entrypoint.sh \
-    && chown django /entrypoint.sh \
-    && chown django /entrypoint.sh
+RUN sed -i 's/\r//' /entrypoint.sh && chmod +x /entrypoint.sh && chown django /entrypoint.sh
 
 COPY application /app
 RUN chown -R django /app
