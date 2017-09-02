@@ -8,7 +8,6 @@ services:
       - 127.0.0.1:6379:6379
     volumes:
       - ./redis:/data:rw
-    restart: always
 
   postgres:
     image: postgres:9.6.4
@@ -17,8 +16,7 @@ services:
     ports:
       - 127.0.0.1:5432:5432
     volumes:
-      - ./postgres:/var/lib/postgresql/data/
-    restart: always
+      - ./postgres:/var/lib/postgresql/data/:rw
 
   rabbitmq:
     image: rabbitmq:3.6
@@ -26,5 +24,3 @@ services:
       - 127.0.0.1:5672:5672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:rw
-    restart: always
-
