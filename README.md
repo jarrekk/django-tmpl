@@ -31,8 +31,7 @@ cp env.example .env
 * customized user model
 * different settings for different environment
 * different requirements for different environment
-* MySQL support for each environment and sqlit3 for develop environment
-* Postgres support for each environment.
+* Postgres support for each environment
 * docker & docker-compose for development, test and production environment
 
 ### Rest API
