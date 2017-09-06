@@ -22,6 +22,7 @@ cp env.example .env
 * django-environ
 * django-debug-toolbar
 * django-compressor
+* django-htmlmin
 * django-allauth(Email verify/login)
 * django-anymail([MailGun](https://www.mailgun.com/)) with async function
 

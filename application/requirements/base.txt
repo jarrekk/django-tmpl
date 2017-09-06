@@ -2,6 +2,7 @@ django==1.11.4
 django-environ==0.4.3
 django-anymail==0.11.1
 django-compressor==2.1.1
+django-htmlmin==0.1.0
 django-allauth==0.32.0
 django-filter==1.0.4
 django-crispy-forms==1.6.1
