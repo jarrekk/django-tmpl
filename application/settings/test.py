@@ -10,7 +10,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ] + AUTHENTICATION_BACKENDS
 
-# debug toolbar
+# debug toolbar & django rest swagger
 INSTALLED_APPS = ['django.contrib.admin'] + INSTALLED_APPS
 INSTALLED_APPS += [
     'debug_toolbar',
