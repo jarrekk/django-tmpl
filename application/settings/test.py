@@ -9,7 +9,8 @@ from .base import *
 INSTALLED_APPS = ['django.contrib.admin'] + INSTALLED_APPS
 INSTALLED_APPS += [
     'debug_toolbar',
-    'django_extensions'
+    'django_extensions',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE += [

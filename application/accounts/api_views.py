@@ -91,6 +91,7 @@ class ResetPassword(generics.CreateAPIView):
     """
     User reset password with email.
     """
+    serializer_class = UserSerializer
     permission_classes = (permissions.AllowAny,)
 
     def create(self, request, *args, **kwargs):
@@ -101,7 +102,7 @@ class ResetPassword(generics.CreateAPIView):
         return Response({'detail': 'Email was not provided or error.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ChangePassword(generics.UpdateAPIView,):
+class ChangePassword(generics.UpdateAPIView):
     """
     User change password.
     :parameter
