@@ -38,6 +38,7 @@ cp env.example .env
 ### Rest API
 
 * django-rest-framework with jwt
+* django-rest-framework-swagger at development & test environment
 
 ### Other
 

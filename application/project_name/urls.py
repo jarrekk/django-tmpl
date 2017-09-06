@@ -33,8 +33,12 @@ urlpatterns = []
 # debug tool route
 if settings.DEBUG:
     import debug_toolbar
+    from rest_framework_swagger.views import get_swagger_view
+
+    schema_view = get_swagger_view(title='Pastebin API')
 
     urlpatterns += [
+        url(r'^swagger/', schema_view),
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
 
