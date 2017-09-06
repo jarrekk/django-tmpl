@@ -5,6 +5,11 @@
 # email: me@jarrekk.com
 from .base import *
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+] + AUTHENTICATION_BACKENDS
+
 # debug toolbar
 INSTALLED_APPS = ['django.contrib.admin'] + INSTALLED_APPS
 INSTALLED_APPS += [
