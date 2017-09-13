@@ -5,7 +5,7 @@
 * python2.7/3
 * django==1.11.4
 
-## Generic views template
+## Quick start
 
 ``` bash
 PROJECT_NAME=project
